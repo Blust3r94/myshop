@@ -1,0 +1,60 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String
+  category    String
+  images      String[]  // URL Cloudinary/S3
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  variants    Variant[]
+  orderItems  OrderItem[]
+}
+
+model Variant {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size      String   // es. S, M, L, 42, 44...
+  color     String?
+  sku       String   @unique
+  priceCents Int     // prezzo in centesimi, mai float
+  stock     Int      @default(0)
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  email           String
+  status          String      @default("pending") // pending, paid, shipped, cancelled
+  stripeSessionId String?     @unique
+  totalCents      Int
+  shippingAddress Json
+  createdAt       DateTime    @default(now())
+
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  variantId String
+  variant   Variant  @relation(fields: [variantId], references: [id])
+  quantity  Int
+  priceCents Int     // prezzo al momento dell'ordine (snapshot)
+}
