@@ -11,6 +11,8 @@ npx prisma db push     # crea le tabelle sul DB
 npm run dev
 ```
 
+Per testare i pagamenti in locale serve anche inoltrare i webhook Stripe (in un secondo terminale): dettagli in [`CLAUDE.md`](CLAUDE.md#webhook-stripe-in-locale).
+
 ## Documentazione
 
 - [`docs/status/STATUS.md`](docs/status/STATUS.md) — cosa c'è già, prossimi passi

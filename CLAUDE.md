@@ -24,6 +24,19 @@ npx prisma db push
 npm run dev
 ```
 
+### Webhook Stripe in locale
+
+Per testare il flusso di pagamento in locale serve inoltrare gli eventi Stripe all'endpoint `/api/webhook`, con [Stripe CLI](https://stripe.com/docs/stripe-cli). In un secondo terminale, parallelo a `npm run dev`:
+
+```bash
+stripe login       # una tantum: autentica la CLI con il tuo account Stripe
+stripe listen --forward-to localhost:3000/api/webhook
+```
+
+Il comando stampa un `whsec_...`: va copiato in `STRIPE_WEBHOOK_SECRET` dentro `.env` (sostituisce quello di `.env.example`), poi si riavvia `npm run dev`. Va rilanciato ogni volta che si riavvia `stripe listen`, perché il secret non è fisso ma generato per la sessione di forwarding.
+
+Questo passo è per sua natura manuale e legato all'account Stripe di chi sviluppa — non è automatizzabile né verificabile da un agente.
+
 ## Convenzioni vincolanti (non derogabili senza discuterne)
 
 - **Prezzi sempre in centesimi, tipo `Int`** — mai `Float`, per evitare errori di arrotondamento.
