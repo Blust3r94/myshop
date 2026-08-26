@@ -2,3 +2,5 @@ node_modules/
 .next/
 .env
 *.Zone.Identifier
+next-env.d.ts
+*.tsbuildinfo
