@@ -7,10 +7,12 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
 
   return (
     <div>
-      <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
-        {images[selected] && (
+      <div className="flex aspect-square items-center justify-center overflow-hidden border border-line bg-paper-alt">
+        {images[selected] ? (
           // eslint-disable-next-line @next/next/no-img-element -- immagini su storage esterno, no next/image senza configurare i domini
           <img src={images[selected]} alt={alt} className="h-full w-full object-cover" />
+        ) : (
+          <span className="text-[11px] uppercase tracking-widest text-ink-muted">Immagine prodotto</span>
         )}
       </div>
       {images.length > 1 && (
@@ -20,8 +22,8 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
               key={image}
               type="button"
               onClick={() => setSelected(index)}
-              className={`h-16 w-16 overflow-hidden rounded-md border ${
-                index === selected ? "border-gray-900" : "border-gray-200"
+              className={`h-16 w-16 overflow-hidden border ${
+                index === selected ? "border-ink" : "border-line"
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element -- immagini su storage esterno, no next/image senza configurare i domini */}

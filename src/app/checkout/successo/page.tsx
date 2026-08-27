@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
-
-function formatPrice(cents: number) {
-  return (cents / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" });
-}
+import { formatPrice } from "@/components/ProductCard";
 
 export const dynamic = "force-dynamic";
 
@@ -17,10 +14,10 @@ export default async function CheckoutSuccessoPage({
 
   if (!sessionId) {
     return (
-      <div className="mx-auto max-w-2xl px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold">Nessun ordine da confermare</h1>
-        <p className="mt-4 text-gray-500">
-          <Link href="/prodotti" className="underline">
+      <div className="mx-auto max-w-2xl px-6 py-20 text-center md:px-10">
+        <h1 className="font-serif text-2xl text-ink md:text-3xl">Nessun ordine da confermare</h1>
+        <p className="mt-4 text-ink-muted">
+          <Link href="/prodotti" className="text-ink underline underline-offset-4">
             Torna al catalogo
           </Link>
           .
@@ -33,9 +30,9 @@ export default async function CheckoutSuccessoPage({
 
   if (!session) {
     return (
-      <div className="mx-auto max-w-2xl px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold">Non siamo riusciti a verificare il pagamento</h1>
-        <p className="mt-4 text-gray-500">
+      <div className="mx-auto max-w-2xl px-6 py-20 text-center md:px-10">
+        <h1 className="font-serif text-2xl text-ink md:text-3xl">Non siamo riusciti a verificare il pagamento</h1>
+        <p className="mt-4 text-ink-muted">
           Se hai completato il pagamento e il problema persiste, contattaci indicando questo
           riferimento: <span className="font-mono">{sessionId}</span>.
         </p>
@@ -55,9 +52,19 @@ export default async function CheckoutSuccessoPage({
   });
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-16">
-      <h1 className="text-2xl font-bold">{paid ? "Grazie per il tuo ordine!" : "Ordine ricevuto"}</h1>
-      <p className="mt-2 text-gray-500">
+    <div className="mx-auto max-w-2xl px-6 py-20 md:px-10">
+      <div className="flex items-center gap-2 text-success">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12l5 5L20 7" />
+        </svg>
+        <span className="text-[13px] uppercase tracking-widest">
+          {paid ? "Pagamento confermato" : "Ordine ricevuto"}
+        </span>
+      </div>
+      <h1 className="mt-3 font-serif text-3xl text-ink md:text-4xl">
+        {paid ? "Grazie per il tuo ordine!" : "Ordine ricevuto"}
+      </h1>
+      <p className="mt-3 text-ink-muted">
         {paid
           ? email
             ? `Una conferma è stata inviata a ${email}.`
@@ -65,20 +72,20 @@ export default async function CheckoutSuccessoPage({
           : "Stiamo confermando il pagamento: riceverai un'email non appena sarà completato."}
       </p>
 
-      <div className="mt-8 rounded-lg border border-gray-200 p-6">
-        <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="mt-10 border border-line p-6">
+        <div className="flex items-center justify-between text-sm text-ink-muted">
           <span>Riferimento ordine</span>
-          <span className="font-mono">{sessionId}</span>
+          <span className="font-mono text-ink">{sessionId}</span>
         </div>
-        <div className="mt-2 flex items-center justify-between text-base font-semibold">
+        <div className="mt-3 flex items-center justify-between text-lg text-ink">
           <span>Totale</span>
           <span>{formatPrice(totalCents)}</span>
         </div>
 
         {order ? (
-          <ul className="mt-6 divide-y divide-gray-200 border-t border-gray-200">
+          <ul className="mt-6 border-t border-line">
             {order.items.map((item) => (
-              <li key={item.id} className="flex items-center justify-between py-3 text-sm">
+              <li key={item.id} className="flex items-center justify-between border-b border-line py-3 text-sm text-ink">
                 <span>
                   {item.product.name} — {item.variant.size}
                   {item.variant.color ? ` · ${item.variant.color}` : ""} × {item.quantity}
@@ -88,14 +95,14 @@ export default async function CheckoutSuccessoPage({
             ))}
           </ul>
         ) : (
-          <p className="mt-6 text-sm text-gray-500">
+          <p className="mt-6 text-sm text-ink-muted">
             Stiamo ancora elaborando il dettaglio del tuo ordine: il riepilogo completo arriverà a
             breve via email.
           </p>
         )}
       </div>
 
-      <Link href="/prodotti" className="mt-8 inline-block text-sm underline">
+      <Link href="/prodotti" className="mt-10 inline-block text-[13px] uppercase tracking-wide text-ink underline underline-offset-4">
         Continua lo shopping
       </Link>
     </div>

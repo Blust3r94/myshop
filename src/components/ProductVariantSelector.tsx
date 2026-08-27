@@ -1,12 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Variant } from "@prisma/client";
+import type { DemoVariant } from "@/lib/demo-catalog";
 import { useCartStore } from "@/lib/cart-store";
-
-function formatPrice(cents: number) {
-  return (cents / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" });
-}
+import { formatPrice } from "@/components/ProductCard";
 
 export function ProductVariantSelector({
   productId,
@@ -17,7 +14,7 @@ export function ProductVariantSelector({
   productId: string;
   productName: string;
   image: string;
-  variants: Variant[];
+  variants: DemoVariant[];
 }) {
   const addItem = useCartStore((state) => state.addItem);
 
@@ -74,7 +71,7 @@ export function ProductVariantSelector({
   }
 
   if (variants.length === 0) {
-    return <p className="mt-4 text-sm text-gray-500">Prodotto momentaneamente non disponibile.</p>;
+    return <p className="mt-6 text-sm text-ink-muted">Prodotto momentaneamente non disponibile.</p>;
   }
 
   const priceCents = selectedVariant?.priceCents ?? Math.min(...variants.map((v) => v.priceCents));
@@ -82,19 +79,21 @@ export function ProductVariantSelector({
   const needsColor = hasColors && !selectedColor;
 
   return (
-    <div className="mt-4">
-      <p className="text-xl font-semibold">{formatPrice(priceCents)}</p>
+    <div className="mt-6">
+      <p className="text-xl text-ink">{formatPrice(priceCents)}</p>
 
-      <div className="mt-4">
-        <p className="text-sm font-medium">Taglia</p>
-        <div className="mt-2 flex flex-wrap gap-2">
+      <div className="mt-6">
+        <p className="text-[13px] uppercase tracking-wide text-ink-muted">Taglia</p>
+        <div className="mt-3 flex flex-wrap gap-2">
           {sizes.map((size) => (
             <button
               key={size}
               type="button"
               onClick={() => handleSizeChange(size)}
-              className={`rounded-md border px-3 py-1.5 text-sm ${
-                size === selectedSize ? "border-gray-900 bg-gray-900 text-white" : "border-gray-300"
+              className={`h-11 min-w-11 border px-3 text-sm transition ${
+                size === selectedSize
+                  ? "border-ink bg-ink text-paper"
+                  : "border-line text-ink hover:border-ink"
               }`}
             >
               {size}
@@ -104,16 +103,18 @@ export function ProductVariantSelector({
       </div>
 
       {hasColors && (
-        <div className="mt-4">
-          <p className="text-sm font-medium">Colore</p>
-          <div className="mt-2 flex flex-wrap gap-2">
+        <div className="mt-5">
+          <p className="text-[13px] uppercase tracking-wide text-ink-muted">Colore</p>
+          <div className="mt-3 flex flex-wrap gap-2">
             {colorsForSize.map((color) => (
               <button
                 key={color}
                 type="button"
                 onClick={() => handleColorChange(color)}
-                className={`rounded-md border px-3 py-1.5 text-sm ${
-                  color === selectedColor ? "border-gray-900 bg-gray-900 text-white" : "border-gray-300"
+                className={`h-11 border px-4 text-sm transition ${
+                  color === selectedColor
+                    ? "border-ink bg-ink text-paper"
+                    : "border-line text-ink hover:border-ink"
                 }`}
               >
                 {color}
@@ -124,19 +125,27 @@ export function ProductVariantSelector({
       )}
 
       {selectedVariant && outOfStock && (
-        <p className="mt-4 text-sm text-red-600">Esaurito in questa combinazione.</p>
+        <p className="mt-4 text-sm text-accent">Esaurito in questa combinazione.</p>
+      )}
+      {selectedVariant && !outOfStock && (
+        <p className="mt-4 flex items-center gap-2 text-[13px] text-success">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12l5 5L20 7" />
+          </svg>
+          Disponibile — spedizione in 48h
+        </p>
       )}
 
       <button
         type="button"
         onClick={handleAddToCart}
         disabled={!selectedVariant || outOfStock || needsColor}
-        className="mt-6 w-full rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+        className="mt-6 w-full bg-accent px-4 py-3.5 text-[13px] uppercase tracking-wide text-paper transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:bg-paper-alt disabled:text-ink-muted"
       >
         Aggiungi al carrello
       </button>
 
-      {justAdded && <p className="mt-2 text-sm text-green-600">Aggiunto al carrello.</p>}
+      {justAdded && <p className="mt-3 text-sm text-success">Aggiunto al carrello.</p>}
     </div>
   );
 }

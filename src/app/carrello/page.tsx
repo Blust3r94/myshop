@@ -3,10 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/lib/cart-store";
-
-function formatPrice(cents: number) {
-  return (cents / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" });
-}
+import { formatPrice } from "@/components/ProductCard";
 
 export default function CarrelloPage() {
   // Il carrello vive solo in localStorage (Zustand persist): evita il mismatch
@@ -51,90 +48,116 @@ export default function CarrelloPage() {
   }
 
   if (!hasMounted) {
-    return <div className="mx-auto max-w-3xl px-4 py-8" />;
+    return <div className="mx-auto max-w-4xl px-6 py-12 md:px-10 md:py-16" />;
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <h1 className="mb-6 text-2xl font-bold">Carrello</h1>
+    <div className="mx-auto max-w-4xl px-6 py-12 md:px-10 md:py-16">
+      <h1 className="font-serif text-3xl text-ink md:text-4xl">Carrello</h1>
 
       {items.length === 0 ? (
-        <p className="text-gray-500">
+        <p className="mt-8 text-ink-muted">
           Il carrello è vuoto.{" "}
-          <Link href="/prodotti" className="underline">
+          <Link href="/prodotti" className="text-ink underline underline-offset-4">
             Vai al catalogo
           </Link>
           .
         </p>
       ) : (
-        <>
-          <ul className="divide-y divide-gray-200">
+        <div className="mt-10 grid gap-12 md:grid-cols-[1.6fr_1fr]">
+          <ul>
             {items.map((item) => (
-              <li key={item.variantId} className="flex items-center gap-4 py-4">
-                <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                  {item.image && (
-                    // eslint-disable-next-line @next/next/no-img-element -- immagini su storage esterno, no next/image senza configurare i domini
+              <li
+                key={item.variantId}
+                className="flex flex-col gap-4 border-t border-line py-6 sm:flex-row sm:items-center"
+              >
+                <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center overflow-hidden border border-line bg-paper-alt">
+                  {item.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- immagini su storage esterno
                     <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="px-2 text-center text-[9px] uppercase tracking-widest text-ink-muted">
+                      Immagine
+                    </span>
                   )}
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{item.name}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-[15px] text-ink">{item.name}</p>
+                  <p className="text-[13px] text-ink-muted">
                     {item.size}
                     {item.color ? ` · ${item.color}` : ""}
                   </p>
-                  <p className="text-sm text-gray-500">{formatPrice(item.priceCents)}</p>
+                  <p className="mt-1 text-sm text-ink">{formatPrice(item.priceCents)}</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between gap-6 sm:justify-end">
+                  <div className="flex items-center gap-3 border border-line px-3 py-2">
+                    <button
+                      type="button"
+                      onClick={() => updateQuantity(item.variantId, Math.max(1, item.quantity - 1))}
+                      aria-label="Diminuisci quantità"
+                      className="text-ink"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </button>
+                    <span className="w-4 text-center text-sm text-ink">{item.quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
+                      aria-label="Aumenta quantità"
+                      className="text-ink"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </button>
+                  </div>
+                  <p className="w-20 text-right text-[15px] text-ink">
+                    {formatPrice(item.priceCents * item.quantity)}
+                  </p>
                   <button
                     type="button"
-                    onClick={() => updateQuantity(item.variantId, Math.max(1, item.quantity - 1))}
-                    className="h-7 w-7 rounded border border-gray-300 text-sm"
-                    aria-label="Diminuisci quantità"
+                    onClick={() => removeItem(item.variantId)}
+                    aria-label="Rimuovi dal carrello"
+                    className="text-ink-muted transition hover:text-accent"
                   >
-                    −
-                  </button>
-                  <span className="w-6 text-center text-sm">{item.quantity}</span>
-                  <button
-                    type="button"
-                    onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                    className="h-7 w-7 rounded border border-gray-300 text-sm"
-                    aria-label="Aumenta quantità"
-                  >
-                    +
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                    </svg>
                   </button>
                 </div>
-                <p className="w-20 text-right text-sm font-medium">
-                  {formatPrice(item.priceCents * item.quantity)}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => removeItem(item.variantId)}
-                  className="text-sm text-gray-400 hover:text-red-600"
-                  aria-label="Rimuovi dal carrello"
-                >
-                  ✕
-                </button>
               </li>
             ))}
           </ul>
 
-          <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-6">
-            <p className="text-base font-semibold">Totale</p>
-            <p className="text-base font-semibold">{formatPrice(totalCents)}</p>
+          <div className="flex h-fit flex-col gap-5 border border-line p-6">
+            <p className="text-[15px] text-ink">Riepilogo ordine</p>
+            <div className="flex items-center justify-between text-sm text-ink-muted">
+              <span>Subtotale</span>
+              <span>{formatPrice(totalCents)}</span>
+            </div>
+            <p className="text-[13px] text-ink-muted">Spedizione calcolata al pagamento.</p>
+            <div className="h-px bg-line" />
+            <div className="flex items-center justify-between text-lg text-ink">
+              <span>Totale</span>
+              <span>{formatPrice(totalCents)}</span>
+            </div>
+
+            {error && <p className="text-sm text-accent">{error}</p>}
+
+            <button
+              type="button"
+              onClick={handleCheckout}
+              disabled={loading}
+              className="mt-1 w-full bg-accent px-4 py-3.5 text-[13px] uppercase tracking-wide text-paper transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "Reindirizzamento a Stripe..." : "Vai al pagamento"}
+            </button>
           </div>
-
-          {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
-
-          <button
-            type="button"
-            onClick={handleCheckout}
-            disabled={loading}
-            className="mt-6 w-full rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loading ? "Reindirizzamento a Stripe..." : "Vai al pagamento"}
-          </button>
-        </>
+        </div>
       )}
     </div>
   );
