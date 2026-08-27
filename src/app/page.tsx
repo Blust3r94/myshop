@@ -2,17 +2,36 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { DEMO_PRODUCTS } from "@/lib/demo-catalog";
 import { ProductCard } from "@/components/ProductCard";
+import { Hero } from "@/components/Hero";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 
 // Dati sempre freschi (stock/disponibilità cambiano di continuo): niente prerender statico.
 export const dynamic = "force-dynamic";
 
-const CATEGORIES = ["Abbigliamento", "Scarpe", "Accessori"];
-
-const VALUES = [
-  { title: "Spedizione in 48h", text: "Su tutti gli ordini in Italia" },
-  { title: "Resi gratuiti", text: "Entro 30 giorni dall'acquisto" },
-  { title: "Pagamento sicuro", text: "Checkout protetto con Stripe" },
+const CATEGORIES = [
+  { name: "Abbigliamento", image: "/demo/category-abbigliamento.jpg" },
+  { name: "Scarpe", image: "/demo/category-scarpe.jpg" },
+  { name: "Accessori", image: "/demo/category-accessori.jpg" },
 ];
+
+function ArrowIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  );
+}
 
 export default async function HomePage() {
   const realProducts = await prisma.product.findMany({
@@ -28,72 +47,72 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Hero */}
-      <div className="grid border-b border-line md:grid-cols-2">
-        <div className="flex flex-col justify-center gap-6 px-6 py-16 md:px-10 md:py-24 lg:px-16">
-          <div className="text-[11px] uppercase tracking-widest text-ink-muted">Collezione Autunno</div>
-          <h1 className="max-w-md font-serif text-4xl leading-tight text-ink md:text-5xl">
-            Vestire con intenzione, ogni giorno.
-          </h1>
-          <p className="max-w-sm text-base leading-relaxed text-ink-muted">
-            Capi e accessori essenziali, pensati per durare. Materiali scelti con cura, forme senza
-            tempo.
-          </p>
-          <Link
-            href="/prodotti"
-            className="mt-2 inline-block w-fit bg-ink px-8 py-3.5 text-[13px] uppercase tracking-wide text-paper transition hover:bg-ink/90"
-          >
-            Scopri la collezione
-          </Link>
-        </div>
-        <div className="flex min-h-[280px] items-center justify-center border-t border-line bg-paper-alt md:min-h-0 md:border-l md:border-t-0">
-          <span className="text-[11px] uppercase tracking-widest text-ink-muted">Immagine editoriale</span>
-        </div>
-      </div>
+      <Hero />
 
-      {/* Categorie */}
-      <div className="border-b border-line px-6 py-16 md:px-10 lg:px-16">
+      {/* 2. Categorie — sezioni editoriali, non semplici card */}
+      <section className="px-6 py-20 md:px-10 lg:px-16">
         <div className="mx-auto max-w-6xl">
-          <h2 className="font-serif text-2xl text-ink md:text-3xl">Fai la tua scelta</h2>
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {CATEGORIES.map((category) => (
-              <Link
-                key={category}
-                href={`/prodotti?categoria=${encodeURIComponent(category)}`}
-                className="group flex flex-col gap-4"
-              >
-                <div className="flex aspect-[4/5] items-center justify-center border border-line bg-paper-alt">
-                  <span className="text-[11px] uppercase tracking-widest text-ink-muted">
-                    Immagine categoria
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-serif text-lg text-ink">{category}</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-ink transition group-hover:translate-x-1"
-                  >
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </div>
-              </Link>
+          <Reveal>
+            <h2 className="font-serif text-2xl text-ink md:text-3xl">Fai la tua scelta</h2>
+          </Reveal>
+          <RevealGroup className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+            {CATEGORIES.map((category, index) => (
+              <RevealItem key={category.name} delay={index * 0.08}>
+                <Link
+                  href={`/prodotti?categoria=${encodeURIComponent(category.name)}`}
+                  className="group relative block aspect-[3/4] overflow-hidden bg-paper-alt"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale */}
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent transition-opacity duration-300 group-hover:from-ink/85" />
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
+                    <span className="font-serif text-2xl italic text-paper">{category.name}</span>
+                    <span className="flex translate-y-2 items-center gap-2 text-[11px] uppercase tracking-widest text-paper opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                      Scopri
+                      <ArrowIcon />
+                    </span>
+                  </div>
+                </Link>
+              </RevealItem>
             ))}
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 3. Sezione editoriale — asimmetrica, chiara */}
+      <section className="border-y border-line bg-paper-alt">
+        <div className="mx-auto grid max-w-6xl md:grid-cols-2">
+          <Reveal className="order-1 aspect-[4/5] overflow-hidden md:aspect-auto">
+            {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale */}
+            <img src="/demo/editorial-1.jpg" alt="" className="h-full w-full object-cover" />
+          </Reveal>
+          <div className="order-2 flex flex-col justify-center gap-6 px-6 py-16 md:px-16 md:py-0">
+            <Reveal>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-accent">La bottega</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="max-w-md font-serif text-3xl italic leading-snug text-ink md:text-4xl">
+                Ogni pezzo scelto a mano, per chi non insegue le stagioni.
+              </p>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="max-w-sm text-sm leading-relaxed text-ink-muted">
+                Selezioniamo tessuti naturali e lavorazioni sartoriali, insieme a fornitori che
+                condividono la stessa attenzione alla qualità e alla durata nel tempo.
+              </p>
+            </Reveal>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* In evidenza */}
-      <div className="border-b border-line px-6 py-16 md:px-10 lg:px-16">
+      {/* 4. Prodotti in evidenza */}
+      <section className="px-6 py-20 md:px-10 lg:px-16">
         <div className="mx-auto max-w-6xl">
-          <div className="flex items-baseline justify-between">
+          <Reveal className="flex items-baseline justify-between">
             <h2 className="font-serif text-2xl text-ink md:text-3xl">In evidenza</h2>
             <Link
               href="/prodotti"
@@ -101,41 +120,64 @@ export default async function HomePage() {
             >
               Vedi tutti i prodotti
             </Link>
-          </div>
-          <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 md:grid-cols-4 md:gap-x-8">
-            {featured.map((product) => (
-              <ProductCard key={product.id} product={product} />
+          </Reveal>
+          <RevealGroup className="mt-10 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 md:grid-cols-4 md:gap-x-8">
+            {featured.map((product, index) => (
+              <RevealItem key={product.id} delay={index * 0.06}>
+                <ProductCard product={product} />
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
         </div>
-      </div>
+      </section>
 
-      {/* Value props */}
-      <div className="px-6 py-14 md:px-10 lg:px-16">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 sm:grid-cols-3">
-          {VALUES.map((value) => (
-            <div key={value.title} className="flex items-start gap-4">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                className="mt-0.5 flex-shrink-0 text-accent"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12l5 5L20 7" />
-              </svg>
-              <div className="flex flex-col gap-1">
-                <div className="text-[15px] text-ink">{value.title}</div>
-                <div className="text-[13px] text-ink-muted">{value.text}</div>
-              </div>
-            </div>
-          ))}
+      {/* 5. Sezione brand / filosofia — scura, forte contrasto, asimmetrica */}
+      <section className="relative overflow-hidden bg-ink text-paper">
+        <div className="mx-auto grid max-w-6xl md:grid-cols-[1fr_1.2fr]">
+          <div className="order-2 flex flex-col justify-center gap-6 px-6 py-20 md:order-1 md:px-16 md:py-28">
+            <Reveal>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-accent">La nostra filosofia</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="max-w-md font-serif text-3xl italic leading-snug md:text-4xl">
+                Non vendiamo capi. Vestiamo identità.
+              </p>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="max-w-sm text-sm leading-relaxed text-paper/60">
+                Crediamo in un guardaroba essenziale: pochi capi, scelti bene, che raccontano chi li
+                indossa — non nella quantità, ma nell'intenzione.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal className="order-1 aspect-[4/5] overflow-hidden border-paper/10 md:order-2 md:aspect-auto md:border-l">
+            {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale */}
+            <img src="/demo/editorial-2.jpg" alt="" className="h-full w-full object-cover opacity-90" />
+          </Reveal>
         </div>
-      </div>
+      </section>
+
+      {/* 6. CTA finale — scenografica, rosa */}
+      <section className="relative overflow-hidden bg-accent px-6 py-28 text-center text-paper md:px-10 md:py-36">
+        <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-paper/10 blur-[120px]" />
+        <Reveal className="relative">
+          <p className="text-[11px] uppercase tracking-[0.2em] text-paper/70">Prossima uscita</p>
+        </Reveal>
+        <Reveal delay={0.1} className="relative mx-auto mt-4 max-w-2xl">
+          <p className="font-serif text-4xl italic leading-tight md:text-5xl">
+            Pronta per la tua prossima stagione?
+          </p>
+        </Reveal>
+        <Reveal delay={0.2} className="relative mt-10 inline-block">
+          <Link
+            href="/prodotti"
+            className="group inline-flex items-center gap-3 border border-paper px-8 py-3.5 text-[13px] uppercase tracking-wide transition-colors hover:bg-paper hover:text-accent"
+          >
+            Esplora il catalogo
+            <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        </Reveal>
+      </section>
     </div>
   );
 }

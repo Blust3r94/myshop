@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
-import { Libre_Caslon_Display, Work_Sans } from "next/font/google";
+import { Bodoni_Moda, Work_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
-const caslon = Libre_Caslon_Display({
+const display = Bodoni_Moda({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-caslon",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
   display: "swap",
 });
 
-const workSans = Work_Sans({
+const body = Work_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-work-sans",
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -29,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="it" className={`${caslon.variable} ${workSans.variable}`}>
+    <html lang="it" className={`${display.variable} ${body.variable}`}>
       <body className="flex min-h-screen flex-col bg-paper font-sans text-ink antialiased">
         <Header />
         <main className="flex-1">{children}</main>

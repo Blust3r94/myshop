@@ -77,12 +77,13 @@ export function ProductVariantSelector({
   const priceCents = selectedVariant?.priceCents ?? Math.min(...variants.map((v) => v.priceCents));
   const outOfStock = selectedVariant ? selectedVariant.stock === 0 : false;
   const needsColor = hasColors && !selectedColor;
+  const disabled = !selectedVariant || outOfStock || needsColor;
 
   return (
     <div className="mt-6">
-      <p className="text-xl text-ink">{formatPrice(priceCents)}</p>
+      <p className="font-serif text-2xl text-ink">{formatPrice(priceCents)}</p>
 
-      <div className="mt-6">
+      <div className="mt-7">
         <p className="text-[13px] uppercase tracking-wide text-ink-muted">Taglia</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {sizes.map((size) => (
@@ -90,9 +91,9 @@ export function ProductVariantSelector({
               key={size}
               type="button"
               onClick={() => handleSizeChange(size)}
-              className={`h-11 min-w-11 border px-3 text-sm transition ${
+              className={`h-11 min-w-11 border px-3 text-sm transition-colors ${
                 size === selectedSize
-                  ? "border-ink bg-ink text-paper"
+                  ? "border-accent bg-accent text-paper"
                   : "border-line text-ink hover:border-ink"
               }`}
             >
@@ -111,9 +112,9 @@ export function ProductVariantSelector({
                 key={color}
                 type="button"
                 onClick={() => handleColorChange(color)}
-                className={`h-11 border px-4 text-sm transition ${
+                className={`h-11 border px-4 text-sm transition-colors ${
                   color === selectedColor
-                    ? "border-ink bg-ink text-paper"
+                    ? "border-accent bg-accent text-paper"
                     : "border-line text-ink hover:border-ink"
                 }`}
               >
@@ -139,13 +140,29 @@ export function ProductVariantSelector({
       <button
         type="button"
         onClick={handleAddToCart}
-        disabled={!selectedVariant || outOfStock || needsColor}
-        className="mt-6 w-full bg-accent px-4 py-3.5 text-[13px] uppercase tracking-wide text-paper transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:bg-paper-alt disabled:text-ink-muted"
+        disabled={disabled}
+        className="mt-6 hidden w-full bg-accent px-4 py-3.5 text-[13px] uppercase tracking-wide text-paper transition-colors hover:bg-accent-deep disabled:cursor-not-allowed disabled:bg-paper-alt disabled:text-ink-muted md:block"
       >
         Aggiungi al carrello
       </button>
 
-      {justAdded && <p className="mt-3 text-sm text-success">Aggiunto al carrello.</p>}
+      {justAdded && <p className="mt-3 hidden text-sm text-success md:block">Aggiunto al carrello.</p>}
+
+      {/* Barra fissa mobile: la CTA resta sempre raggiungibile durante lo scroll della pagina prodotto */}
+      <div className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-line bg-paper/95 px-6 py-3 backdrop-blur md:hidden">
+        <div>
+          <p className="text-sm text-ink">{formatPrice(priceCents)}</p>
+          {justAdded && <p className="text-[11px] text-success">Aggiunto al carrello</p>}
+        </div>
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          disabled={disabled}
+          className="bg-accent px-6 py-3 text-[13px] uppercase tracking-wide text-paper transition-colors hover:bg-accent-deep disabled:cursor-not-allowed disabled:bg-paper-alt disabled:text-ink-muted"
+        >
+          Aggiungi
+        </button>
+      </div>
     </div>
   );
 }

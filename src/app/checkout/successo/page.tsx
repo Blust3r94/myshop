@@ -2,6 +2,7 @@ import Link from "next/link";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/components/ProductCard";
+import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
 
@@ -53,33 +54,37 @@ export default async function CheckoutSuccessoPage({
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-20 md:px-10">
-      <div className="flex items-center gap-2 text-success">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 12l5 5L20 7" />
-        </svg>
-        <span className="text-[13px] uppercase tracking-widest">
-          {paid ? "Pagamento confermato" : "Ordine ricevuto"}
-        </span>
-      </div>
-      <h1 className="mt-3 font-serif text-3xl text-ink md:text-4xl">
-        {paid ? "Grazie per il tuo ordine!" : "Ordine ricevuto"}
-      </h1>
-      <p className="mt-3 text-ink-muted">
-        {paid
-          ? email
-            ? `Una conferma è stata inviata a ${email}.`
-            : "Il pagamento è andato a buon fine."
-          : "Stiamo confermando il pagamento: riceverai un'email non appena sarà completato."}
-      </p>
+      <Reveal>
+        <div className="flex flex-col items-center text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 text-accent">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12l5 5L20 7" />
+            </svg>
+          </div>
+          <span className="mt-4 text-[11px] uppercase tracking-[0.2em] text-accent">
+            {paid ? "Pagamento confermato" : "Ordine ricevuto"}
+          </span>
+          <h1 className="mt-3 font-serif text-3xl italic text-ink md:text-4xl">
+            {paid ? "Grazie per il tuo ordine!" : "Ordine ricevuto"}
+          </h1>
+          <p className="mt-3 max-w-sm text-ink-muted">
+            {paid
+              ? email
+                ? `Una conferma è stata inviata a ${email}.`
+                : "Il pagamento è andato a buon fine."
+              : "Stiamo confermando il pagamento: riceverai un'email non appena sarà completato."}
+          </p>
+        </div>
+      </Reveal>
 
-      <div className="mt-10 border border-line p-6">
+      <Reveal delay={0.1} className="mt-10 border border-line p-6">
         <div className="flex items-center justify-between text-sm text-ink-muted">
           <span>Riferimento ordine</span>
           <span className="font-mono text-ink">{sessionId}</span>
         </div>
         <div className="mt-3 flex items-center justify-between text-lg text-ink">
           <span>Totale</span>
-          <span>{formatPrice(totalCents)}</span>
+          <span className="font-serif">{formatPrice(totalCents)}</span>
         </div>
 
         {order ? (
@@ -100,11 +105,16 @@ export default async function CheckoutSuccessoPage({
             breve via email.
           </p>
         )}
-      </div>
+      </Reveal>
 
-      <Link href="/prodotti" className="mt-10 inline-block text-[13px] uppercase tracking-wide text-ink underline underline-offset-4">
-        Continua lo shopping
-      </Link>
+      <div className="mt-10 text-center">
+        <Link
+          href="/prodotti"
+          className="inline-block text-[13px] uppercase tracking-wide text-ink underline underline-offset-4 transition hover:text-accent"
+        >
+          Continua lo shopping
+        </Link>
+      </div>
     </div>
   );
 }

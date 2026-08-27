@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/lib/cart-store";
 import { formatPrice } from "@/components/ProductCard";
+import { Reveal } from "@/components/motion/Reveal";
 
 export default function CarrelloPage() {
   // Il carrello vive solo in localStorage (Zustand persist): evita il mismatch
@@ -53,7 +54,9 @@ export default function CarrelloPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-12 md:px-10 md:py-16">
-      <h1 className="font-serif text-3xl text-ink md:text-4xl">Carrello</h1>
+      <Reveal>
+        <h1 className="font-serif text-3xl text-ink md:text-4xl">Carrello</h1>
+      </Reveal>
 
       {items.length === 0 ? (
         <p className="mt-8 text-ink-muted">
@@ -90,12 +93,12 @@ export default function CarrelloPage() {
                   <p className="mt-1 text-sm text-ink">{formatPrice(item.priceCents)}</p>
                 </div>
                 <div className="flex items-center justify-between gap-6 sm:justify-end">
-                  <div className="flex items-center gap-3 border border-line px-3 py-2">
+                  <div className="flex items-center gap-3 border border-line px-3 py-2 transition-colors hover:border-ink">
                     <button
                       type="button"
                       onClick={() => updateQuantity(item.variantId, Math.max(1, item.quantity - 1))}
                       aria-label="Diminuisci quantità"
-                      className="text-ink"
+                      className="text-ink transition-colors hover:text-accent"
                     >
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12" />
@@ -106,7 +109,7 @@ export default function CarrelloPage() {
                       type="button"
                       onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
                       aria-label="Aumenta quantità"
-                      className="text-ink"
+                      className="text-ink transition-colors hover:text-accent"
                     >
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="12" y1="5" x2="12" y2="19" />
