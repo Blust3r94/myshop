@@ -40,7 +40,24 @@ const productSchema = z.object({
     .regex(/^[a-z0-9-]+$/, "Slug: solo minuscole, numeri e trattini"),
   description: z.string().trim().min(1, "Descrizione obbligatoria"),
   category: z.string().trim().min(1, "Categoria obbligatoria"),
-  images: z.string(),
+  images: z.string().refine(
+    (value) =>
+      value
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .every((line) => {
+          // Percorso locale relativo (es. /demo/foto.jpg): servito dallo stesso
+          // dominio, non un URL assoluto da validare come http/https.
+          if (line.startsWith("/")) return true;
+          try {
+            return ["http:", "https:"].includes(new URL(line).protocol);
+          } catch {
+            return false;
+          }
+        }),
+    "Immagini: ogni riga deve essere un percorso locale (es. /demo/foto.jpg) o un URL http:// o https:// valido"
+  ),
   active: z.boolean(),
 });
 
