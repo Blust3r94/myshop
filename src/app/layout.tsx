@@ -19,9 +19,24 @@ const body = Work_Sans({
   display: "swap",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+const siteDescription =
+  "MyShop — capi e accessori essenziali, pensati per durare. Materiali scelti con cura, forme senza tempo.";
+
 export const metadata: Metadata = {
-  title: "MyShop",
-  description: "Negozio online MyShop",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "MyShop",
+    template: "%s — MyShop",
+  },
+  description: siteDescription,
+  openGraph: {
+    siteName: "MyShop",
+    title: "MyShop",
+    description: siteDescription,
+    type: "website",
+    locale: "it_IT",
+  },
 };
 
 export default function RootLayout({

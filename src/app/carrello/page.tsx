@@ -31,12 +31,12 @@ export default function CarrelloPage() {
           items: items.map((item) => ({ variantId: item.variantId, quantity: item.quantity })),
         }),
       });
+      const data = await res.json().catch(() => null);
       if (!res.ok) {
-        setError("Impossibile completare il checkout. Riprova.");
+        setError(data?.error ?? "Impossibile completare il checkout. Riprova.");
         return;
       }
-      const data = await res.json();
-      if (data.url) {
+      if (data?.url) {
         window.location.href = data.url;
       } else {
         setError("Impossibile completare il checkout. Riprova.");

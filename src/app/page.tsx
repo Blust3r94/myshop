@@ -146,7 +146,7 @@ export default async function HomePage() {
             <Reveal delay={0.2}>
               <p className="max-w-sm text-sm leading-relaxed text-paper/60">
                 Crediamo in un guardaroba essenziale: pochi capi, scelti bene, che raccontano chi li
-                indossa — non nella quantità, ma nell'intenzione.
+                indossa — non nella quantità, ma nell&apos;intenzione.
               </p>
             </Reveal>
           </div>

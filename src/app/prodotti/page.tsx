@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { DEMO_PRODUCTS } from "@/lib/demo-catalog";
@@ -6,6 +7,20 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 
 // Dati sempre freschi (stock/disponibilità cambiano di continuo): niente prerender statico.
 export const dynamic = "force-dynamic";
+
+export function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { categoria?: string };
+}): Metadata {
+  const categoria = searchParams.categoria;
+  return {
+    title: categoria ?? "Catalogo",
+    description: categoria
+      ? `Scopri i prodotti della categoria ${categoria} su MyShop.`
+      : "Scopri tutta la collezione MyShop: capi e accessori essenziali, pensati per durare.",
+  };
+}
 
 function pillClass(active: boolean) {
   return active

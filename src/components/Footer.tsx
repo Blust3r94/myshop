@@ -32,35 +32,28 @@ export function Footer() {
 
           <div className="flex flex-col gap-3">
             <div className="text-[11px] uppercase tracking-widest text-paper/40">Assistenza</div>
-            <a href="#" className="text-sm text-paper/80 transition hover:text-accent">
+            <Link href="/spedizioni" className="text-sm text-paper/80 transition hover:text-accent">
               Spedizioni
-            </a>
-            <a href="#" className="text-sm text-paper/80 transition hover:text-accent">
+            </Link>
+            <Link href="/resi-e-cambi" className="text-sm text-paper/80 transition hover:text-accent">
               Resi e cambi
-            </a>
-            <a href="#" className="text-sm text-paper/80 transition hover:text-accent">
+            </Link>
+            <Link href="/contatti" className="text-sm text-paper/80 transition hover:text-accent">
               Contatti
-            </a>
+            </Link>
           </div>
 
           <div className="col-span-2 flex flex-col gap-3 md:col-span-1">
             <div className="text-[11px] uppercase tracking-widest text-paper/40">Novità</div>
             <p className="text-sm text-paper/60">
-              Iscriviti per ricevere aggiornamenti sulle nuove collezioni.
+              Le nuove collezioni arrivano prima nel catalogo: dagli un&apos;occhiata.
             </p>
-            <div className="flex border border-paper/20">
-              <input
-                type="email"
-                placeholder="La tua email"
-                className="w-full bg-transparent px-3 py-2.5 text-sm text-paper placeholder:text-paper/40 focus:outline-none"
-              />
-              <button
-                type="button"
-                className="flex-shrink-0 border-l border-paper/20 px-4 text-[13px] uppercase tracking-wide text-paper transition hover:bg-paper/10"
-              >
-                Invia
-              </button>
-            </div>
+            <Link
+              href="/prodotti"
+              className="inline-flex w-fit items-center gap-2 border border-paper/20 px-4 py-2.5 text-[13px] uppercase tracking-wide text-paper transition hover:bg-paper/10"
+            >
+              Vai al catalogo
+            </Link>
           </div>
         </div>
 

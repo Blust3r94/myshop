@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { DEMO_PRODUCTS, findDemoProduct } from "@/lib/demo-catalog";
@@ -9,20 +11,49 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 // Dati sempre freschi (stock/disponibilità cambiano di continuo): niente prerender statico.
 export const dynamic = "force-dynamic";
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
+// cache() deduplica la query tra generateMetadata e il componente pagina
+// (entrambi girano per la stessa request, altrimenti interrogherebbero il DB due volte).
+const getProduct = cache(async (slug: string) => {
   const realProduct = await prisma.product.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: { variants: true },
   });
 
   if (realProduct && !realProduct.active) {
-    notFound();
+    return null;
   }
 
   // Finché il catalogo reale è vuoto, uno slug dimostrativo mostra un prodotto
   // di esempio (nessuna scrittura sul DB) così le pagine prodotto sono
   // navigabili in una demo dal vivo.
-  const product = realProduct ?? findDemoProduct(params.slug);
+  return { realProduct, product: realProduct ?? findDemoProduct(slug) };
+});
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const data = await getProduct(params.slug);
+  const product = data?.product;
+  if (!product) return {};
+
+  const description = product.description.slice(0, 155);
+  return {
+    title: product.name,
+    description,
+    openGraph: {
+      title: product.name,
+      description,
+      images: product.images[0] ? [{ url: product.images[0] }] : undefined,
+    },
+  };
+}
+
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const data = await getProduct(params.slug);
+  const realProduct = data?.realProduct ?? null;
+  const product = data?.product;
 
   if (!product) {
     notFound();
@@ -77,7 +108,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
                 </svg>
                 <div>
                   <p className="text-[13px] text-ink">Resi gratuiti</p>
-                  <p className="text-[12px] text-ink-muted">Entro 30 giorni dall'acquisto</p>
+                  <p className="text-[12px] text-ink-muted">Entro 30 giorni dall&apos;acquisto</p>
                 </div>
               </div>
             </div>
