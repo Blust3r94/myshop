@@ -15,8 +15,11 @@ export default function ContattiPage() {
           resi e cambi.
         </p>
         <p>
-          Questa è una pagina dimostrativa: in una versione live qui troverai un canale di contatto
-          diretto (email, telefono o modulo).
+          Scrivici a{" "}
+          <a href="mailto:assistenza@myshop.it" className="text-ink underline underline-offset-4">
+            assistenza@myshop.it
+          </a>
+          : rispondiamo entro 24 ore lavorative.
         </p>
       </div>
     </div>
