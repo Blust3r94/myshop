@@ -32,7 +32,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     badge: "Novità",
     description:
       "Camicia in puro lino lavato, dalla vestibilità morbida e rilassata. Colletto classico, chiusura a bottoni in madreperla. Un capo essenziale che accompagna ogni stagione.",
-    images: ["/demo/product-camicia-lino.jpg"],
+    images: ["/catalogo/product-camicia-lino.jpg"],
     variants: [
       { id: "demo-camicia-lino-s-ecru", size: "S", color: "Ecru", sku: "DEMO-CL-S-ECR", priceCents: 6800, stock: 8 },
       { id: "demo-camicia-lino-m-ecru", size: "M", color: "Ecru", sku: "DEMO-CL-M-ECR", priceCents: 6800, stock: 5 },
@@ -46,7 +46,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     category: "Abbigliamento",
     description:
       "Pantalone chino in cotone elasticizzato, taglio dritto affusolato. Comodo per tutto il giorno, abbastanza versatile per l'ufficio e il tempo libero.",
-    images: ["/demo/product-pantalone-chino.jpg"],
+    images: ["/catalogo/product-pantalone-chino.jpg"],
     variants: [
       { id: "demo-pantalone-chino-46", size: "46", color: "Beige", sku: "DEMO-PC-46-BEI", priceCents: 8900, stock: 6 },
       { id: "demo-pantalone-chino-48", size: "48", color: "Beige", sku: "DEMO-PC-48-BEI", priceCents: 8900, stock: 4 },
@@ -60,7 +60,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     category: "Abbigliamento",
     description:
       "Maglione girocollo in cotone pettinato, maglia leggera. Una base pulita da abbinare a tutto, in tinta unita.",
-    images: ["/demo/product-maglione-cotone.jpg"],
+    images: ["/catalogo/product-maglione-cotone.jpg"],
     variants: [
       { id: "demo-maglione-s", size: "S", color: "Grigio", sku: "DEMO-MC-S-GRI", priceCents: 7500, stock: 7 },
       { id: "demo-maglione-m", size: "M", color: "Grigio", sku: "DEMO-MC-M-GRI", priceCents: 7500, stock: 9 },
@@ -74,7 +74,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     badge: "Ultimi pezzi",
     description:
       "Giacca leggera imbottita, ideale per le mezze stagioni. Chiusura con zip, tasche a filo, fodera interna in rete.",
-    images: ["/demo/product-giacca-leggera.jpg"],
+    images: ["/catalogo/product-giacca-leggera.jpg"],
     variants: [
       { id: "demo-giacca-m", size: "M", color: "Nero", sku: "DEMO-GL-M-NER", priceCents: 16500, stock: 4 },
       { id: "demo-giacca-l", size: "L", color: "Nero", sku: "DEMO-GL-L-NER", priceCents: 16500, stock: 2 },
@@ -88,7 +88,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     badge: "Best seller",
     description:
       "Sneaker in pelle pieno fiore, suola in gomma leggera. Un modello essenziale che si abbina a ogni look, dal casual al più curato.",
-    images: ["/demo/product-sneaker-pelle.jpg"],
+    images: ["/catalogo/product-sneaker-pelle.jpg"],
     variants: [
       { id: "demo-sneaker-40", size: "40", color: "Bianco", sku: "DEMO-SP-40-BIA", priceCents: 14500, stock: 5 },
       { id: "demo-sneaker-42", size: "42", color: "Bianco", sku: "DEMO-SP-42-BIA", priceCents: 14500, stock: 6 },
@@ -102,7 +102,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     category: "Scarpe",
     description:
       "Stivaletto in camoscio con fondo in cuoio, tacco basso. Lavorazione artigianale, forma slanciata.",
-    images: ["/demo/product-stivaletto-camoscio.jpg"],
+    images: ["/catalogo/product-stivaletto-camoscio.jpg"],
     variants: [
       { id: "demo-stivaletto-38", size: "38", color: "Cognac", sku: "DEMO-SC-38-COG", priceCents: 18900, stock: 3 },
       { id: "demo-stivaletto-40", size: "40", color: "Cognac", sku: "DEMO-SC-40-COG", priceCents: 18900, stock: 2 },
@@ -115,7 +115,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     category: "Accessori",
     description:
       "Borsa a tracolla in pelle a grana pieno, chiusura con fibbia. Compartimento interno con tasca porta telefono.",
-    images: ["/demo/product-borsa-tracolla.jpg"],
+    images: ["/catalogo/product-borsa-tracolla.jpg"],
     variants: [
       { id: "demo-borsa-unica", size: "Unica", color: "Cognac", sku: "DEMO-BT-U-COG", priceCents: 12000, stock: 6 },
     ],
@@ -127,7 +127,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
     category: "Accessori",
     description:
       "Cintura in cuoio pieno fiore, fibbia in metallo brunito. Larghezza 3,5 cm, adatta sia al casual che all'elegante.",
-    images: ["/demo/product-cintura-cuoio.jpg"],
+    images: ["/catalogo/product-cintura-cuoio.jpg"],
     variants: [
       { id: "demo-cintura-90", size: "90", color: "Testa di moro", sku: "DEMO-CC-90-TDM", priceCents: 4500, stock: 10 },
       { id: "demo-cintura-100", size: "100", color: "Testa di moro", sku: "DEMO-CC-100-TDM", priceCents: 4500, stock: 8 },

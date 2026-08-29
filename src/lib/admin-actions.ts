@@ -47,7 +47,7 @@ const productSchema = z.object({
         .map((line) => line.trim())
         .filter(Boolean)
         .every((line) => {
-          // Percorso locale relativo (es. /demo/foto.jpg): servito dallo stesso
+          // Percorso locale relativo (es. /catalogo/foto.jpg): servito dallo stesso
           // dominio, non un URL assoluto da validare come http/https.
           if (line.startsWith("/")) return true;
           try {
@@ -56,7 +56,7 @@ const productSchema = z.object({
             return false;
           }
         }),
-    "Immagini: ogni riga deve essere un percorso locale (es. /demo/foto.jpg) o un URL http:// o https:// valido"
+    "Immagini: ogni riga deve essere un percorso locale (es. /catalogo/foto.jpg) o un URL http:// o https:// valido"
   ),
   active: z.boolean(),
 });

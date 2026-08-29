@@ -68,7 +68,7 @@ export default async function CatalogoPage(
       <div className="relative overflow-hidden bg-ink px-6 py-20 text-paper md:px-10 md:py-28 lg:px-16">
         {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale, sfondo attenuato */}
         <img
-          src="/demo/editorial-1.jpg"
+          src="/catalogo/editorial-1.jpg"
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-20"
         />

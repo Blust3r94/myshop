@@ -11,7 +11,7 @@ export function Hero() {
       {/* Mobile: immagine piena a schermo con overlay scuro, testo ancorato in basso — non è il desktop compresso */}
       <div className="absolute inset-0 md:hidden">
         {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale, no next/image senza configurare i domini */}
-        <img src="/demo/hero.jpg" alt="" className="h-full w-full object-cover object-top" />
+        <img src="/catalogo/hero.jpg" alt="" className="h-full w-full object-cover object-top" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" />
       </div>
 
@@ -97,7 +97,7 @@ export function Hero() {
           <div className="absolute -right-4 -top-4 h-full w-full border border-accent/50 md:-right-6 md:-top-6" />
           <div className="relative h-full w-full overflow-hidden border border-paper/15">
             {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale */}
-            <img src="/demo/hero.jpg" alt="Composizione editoriale MyShop" className="h-full w-full object-cover" />
+            <img src="/catalogo/hero.jpg" alt="Composizione editoriale MyShop" className="h-full w-full object-cover" />
           </div>
         </motion.div>
       </div>

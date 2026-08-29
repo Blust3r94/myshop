@@ -9,9 +9,9 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 export const dynamic = "force-dynamic";
 
 const CATEGORIES = [
-  { name: "Abbigliamento", image: "/demo/category-abbigliamento.jpg" },
-  { name: "Scarpe", image: "/demo/category-scarpe.jpg" },
-  { name: "Accessori", image: "/demo/category-accessori.jpg" },
+  { name: "Abbigliamento", image: "/catalogo/category-abbigliamento.jpg" },
+  { name: "Scarpe", image: "/catalogo/category-scarpe.jpg" },
+  { name: "Accessori", image: "/catalogo/category-accessori.jpg" },
 ];
 
 function ArrowIcon({ className }: { className?: string }) {
@@ -88,7 +88,7 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-6xl md:grid-cols-2">
           <Reveal className="order-1 aspect-[4/5] overflow-hidden md:aspect-auto">
             {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale */}
-            <img src="/demo/editorial-1.jpg" alt="" className="h-full w-full object-cover" />
+            <img src="/catalogo/editorial-1.jpg" alt="" className="h-full w-full object-cover" />
           </Reveal>
           <div className="order-2 flex flex-col justify-center gap-6 px-6 py-16 md:px-16 md:py-0">
             <Reveal>
@@ -152,7 +152,7 @@ export default async function HomePage() {
           </div>
           <Reveal className="order-1 aspect-[4/5] overflow-hidden border-paper/10 md:order-2 md:aspect-auto md:border-l">
             {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale */}
-            <img src="/demo/editorial-2.jpg" alt="" className="h-full w-full object-cover opacity-90" />
+            <img src="/catalogo/editorial-2.jpg" alt="" className="h-full w-full object-cover opacity-90" />
           </Reveal>
         </div>
       </section>
