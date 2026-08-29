@@ -8,11 +8,12 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 // Dati sempre freschi (stock/disponibilità cambiano di continuo): niente prerender statico.
 export const dynamic = "force-dynamic";
 
-export function generateMetadata({
-  searchParams,
-}: {
-  searchParams: { categoria?: string };
-}): Metadata {
+export async function generateMetadata(
+  props: {
+    searchParams: Promise<{ categoria?: string }>;
+  }
+): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   const categoria = searchParams.categoria;
   return {
     title: categoria ?? "Catalogo",
@@ -28,11 +29,12 @@ function pillClass(active: boolean) {
     : "border border-line px-5 py-2 text-[13px] uppercase tracking-wide text-ink-muted transition hover:border-ink hover:text-ink";
 }
 
-export default async function CatalogoPage({
-  searchParams,
-}: {
-  searchParams: { categoria?: string };
-}) {
+export default async function CatalogoPage(
+  props: {
+    searchParams: Promise<{ categoria?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const categoria = searchParams.categoria;
 
   const categoryRows = await prisma.product.findMany({

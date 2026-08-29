@@ -5,13 +5,14 @@ import { updateProduct, upsertVariant, deleteVariant } from "@/lib/admin-actions
 
 export const dynamic = "force-dynamic";
 
-export default async function ModificaProdottoPage({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams: { error?: string };
-}) {
+export default async function ModificaProdottoPage(
+  props: {
+    params: Promise<{ id: string }>;
+    searchParams: Promise<{ error?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const product = await prisma.product.findUnique({
     where: { id: params.id },
     include: { variants: { orderBy: { size: "asc" } } },

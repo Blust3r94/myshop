@@ -1,7 +1,8 @@
 import { AdminNav } from "@/components/AdminNav";
 import { createProduct } from "@/lib/admin-actions";
 
-export default function NuovoProdottoPage({ searchParams }: { searchParams: { error?: string } }) {
+export default async function NuovoProdottoPage(props: { searchParams: Promise<{ error?: string }> }) {
+  const searchParams = await props.searchParams;
   return (
     <div className="mx-auto max-w-2xl px-6 py-10">
       <AdminNav />

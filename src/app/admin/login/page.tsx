@@ -1,6 +1,7 @@
 import { login } from "@/lib/admin-actions";
 
-export default function AdminLoginPage({ searchParams }: { searchParams: { error?: string } }) {
+export default async function AdminLoginPage(props: { searchParams: Promise<{ error?: string }> }) {
+  const searchParams = await props.searchParams;
   return (
     <div className="mx-auto max-w-sm px-6 py-20">
       <p className="text-[11px] uppercase tracking-[0.2em] text-accent">Area riservata</p>

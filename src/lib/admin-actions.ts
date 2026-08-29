@@ -15,7 +15,7 @@ export async function login(formData: FormData) {
   }
 
   const hash = await sha256Hex(password);
-  cookies().set(ADMIN_SESSION_COOKIE, hash, {
+  (await cookies()).set(ADMIN_SESSION_COOKIE, hash, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
@@ -27,7 +27,7 @@ export async function login(formData: FormData) {
 }
 
 export async function logout() {
-  cookies().delete(ADMIN_SESSION_COOKIE);
+  (await cookies()).delete(ADMIN_SESSION_COOKIE);
   redirect("/admin/login");
 }
 

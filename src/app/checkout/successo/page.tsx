@@ -6,11 +6,12 @@ import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
 
-export default async function CheckoutSuccessoPage({
-  searchParams,
-}: {
-  searchParams: { session_id?: string };
-}) {
+export default async function CheckoutSuccessoPage(
+  props: {
+    searchParams: Promise<{ session_id?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const sessionId = searchParams.session_id;
 
   if (!sessionId) {
