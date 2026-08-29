@@ -55,10 +55,19 @@ export async function POST(req: NextRequest) {
           },
         });
 
-        await tx.variant.update({
-          where: { id: variant.id },
+        const stockUpdate = await tx.variant.updateMany({
+          where: { id: variant.id, stock: { gte: item.quantity } },
           data: { stock: { decrement: item.quantity } },
         });
+
+        if (stockUpdate.count === 0) {
+          // Il pagamento è già confermato da Stripe (non annullabile da qui): l'ordine
+          // e l'OrderItem restano validi, ma lo stock non viene portato sotto zero.
+          // Segnalato in log per gestione manuale (backorder/rimborso).
+          console.error(
+            `Stock insufficiente per variante ${variant.id} durante l'elaborazione dell'ordine ${order.id}`
+          );
+        }
       }
     });
   }
