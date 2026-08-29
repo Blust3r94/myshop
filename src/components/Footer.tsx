@@ -5,7 +5,9 @@ const CATEGORIES = ["Abbigliamento", "Scarpe", "Accessori"];
 export function Footer() {
   return (
     <footer className="border-t border-paper/10 bg-ink text-paper">
-      <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+      {/* pb-28 su mobile: lascia spazio alla barra CTA fissa della pagina prodotto
+          (md:hidden), che altrimenti coprirebbe l'ultima riga del footer a fine scroll */}
+      <div className="mx-auto max-w-6xl px-6 pb-28 pt-16 md:px-10 md:pb-16">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
             <div className="font-serif text-xl italic">MyShop</div>
