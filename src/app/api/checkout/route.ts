@@ -9,14 +9,20 @@ import { prisma } from "@/lib/prisma";
 class CheckoutValidationError extends Error {}
 
 export async function POST(req: NextRequest) {
-  const { items, email } = await req.json();
-  // items: [{ variantId, quantity }]
-
-  if (!items || items.length === 0) {
-    return NextResponse.json({ error: "Carrello vuoto" }, { status: 400 });
-  }
-
   try {
+    let body: { items?: { variantId: string; quantity: number }[]; email?: string };
+    try {
+      body = await req.json();
+    } catch {
+      throw new CheckoutValidationError("Richiesta non valida.");
+    }
+    const { items, email } = body;
+    // items: [{ variantId, quantity }]
+
+    if (!items || items.length === 0) {
+      throw new CheckoutValidationError("Carrello vuoto");
+    }
+
     // Ricalcola i prezzi lato server: MAI fidarsi del prezzo mandato dal client
     const variantIds = items.map((i: { variantId: string }) => i.variantId);
     const variants = await prisma.variant.findMany({
