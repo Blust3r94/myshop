@@ -26,7 +26,13 @@ export function Reveal({
     <Component
       initial="hidden"
       whileInView="shown"
-      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+      // Margine POSITIVO (non negativo): un margine negativo restringeva la finestra
+      // di rilevamento a una fascia più piccola del viewport, che uno scroll veloce da
+      // mobile (un solo gesto, più viewport in un colpo) poteva superare del tutto senza
+      // che l'elemento venisse mai rilevato come visibile — con `once: true` restava poi
+      // bloccato per sempre a opacity:0. Un margine positivo allarga la finestra oltre i
+      // bordi reali dello schermo, rendendo molto più difficile "saltarla" con un flick.
+      viewport={{ once: true, margin: "50% 0px 50% 0px" }}
       variants={variants}
       transition={{ duration: 0.7, delay, ease: EASE }}
       className={className}
@@ -68,7 +74,13 @@ export function RevealItem({
     <motion.div
       initial="hidden"
       whileInView="shown"
-      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+      // Margine POSITIVO (non negativo): un margine negativo restringeva la finestra
+      // di rilevamento a una fascia più piccola del viewport, che uno scroll veloce da
+      // mobile (un solo gesto, più viewport in un colpo) poteva superare del tutto senza
+      // che l'elemento venisse mai rilevato come visibile — con `once: true` restava poi
+      // bloccato per sempre a opacity:0. Un margine positivo allarga la finestra oltre i
+      // bordi reali dello schermo, rendendo molto più difficile "saltarla" con un flick.
+      viewport={{ once: true, margin: "50% 0px 50% 0px" }}
       variants={variants}
       transition={{ duration: 0.6, delay, ease: EASE }}
       className={className}
