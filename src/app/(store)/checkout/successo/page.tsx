@@ -3,6 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/components/ProductCard";
 import { Reveal } from "@/components/motion/Reveal";
+import { ClearPurchasedCart } from "@/components/ClearPurchasedCart";
 
 export const dynamic = "force-dynamic";
 
@@ -46,6 +47,18 @@ export default async function CheckoutSuccessoPage(
   const email = session.customer_details?.email ?? session.customer_email ?? null;
   const totalCents = session.amount_total ?? 0;
 
+  // Solo a pagamento confermato: rimuove dal carrello locale esattamente gli
+  // articoli appena acquistati (stessa lista salvata in metadata al checkout).
+  let purchasedVariantIds: string[] = [];
+  if (paid) {
+    try {
+      const items = JSON.parse(session.metadata?.items || "[]") as { variantId: string }[];
+      purchasedVariantIds = items.map((item) => item.variantId);
+    } catch {
+      purchasedVariantIds = [];
+    }
+  }
+
   // L'Order viene creato in modo asincrono dal webhook Stripe: potrebbe non
   // esistere ancora nel DB nel momento in cui l'utente atterra su questa pagina.
   const order = await prisma.order.findUnique({
@@ -55,6 +68,9 @@ export default async function CheckoutSuccessoPage(
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-20 md:px-10">
+      {purchasedVariantIds.length > 0 && (
+        <ClearPurchasedCart variantIds={purchasedVariantIds} />
+      )}
       <Reveal>
         <div className="flex flex-col items-center text-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 text-accent">
