@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { SITE_NAME } from "@/lib/site-config";
 
 export const metadata = {
-  title: "Resi e cambi — MyShop",
-  description: "Come funzionano resi e cambi su MyShop.",
+  title: "Resi e cambi",
+  description: `Come funzionano resi e cambi su ${SITE_NAME}.`,
 };
 
 export default function ResiECambiPage() {

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { SITE_NAME } from "@/lib/site-config";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -97,7 +98,7 @@ export function Hero() {
           <div className="absolute -right-4 -top-4 h-full w-full border border-accent/50 md:-right-6 md:-top-6" />
           <div className="relative h-full w-full overflow-hidden border border-paper/15">
             {/* eslint-disable-next-line @next/next/no-img-element -- immagine demo locale */}
-            <img src="/catalogo/hero.jpg" alt="Composizione editoriale MyShop" className="h-full w-full object-cover" />
+            <img src="/catalogo/hero.jpg" alt={`Composizione editoriale ${SITE_NAME}`} className="h-full w-full object-cover" />
           </div>
         </motion.div>
       </div>

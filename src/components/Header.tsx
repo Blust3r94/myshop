@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useCartStore } from "@/lib/cart-store";
+import { SITE_NAME } from "@/lib/site-config";
 
 // Placeholder finché il catalogo non fornisce le categorie reali dal DB
 // (collegarlo qui accoppierebbe ogni pagina del sito a una query DB nel layout globale).
@@ -45,7 +46,7 @@ export function Header() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 md:px-10">
         <Link href="/" className="font-serif text-2xl italic">
-          MyShop
+          {SITE_NAME}
         </Link>
 
         <nav className="hidden gap-10 text-[13px] uppercase tracking-wide md:flex">

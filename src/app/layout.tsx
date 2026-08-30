@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda, Work_Sans } from "next/font/google";
+import { SITE_NAME } from "@/lib/site-config";
 import "./globals.css";
 
 const display = Bodoni_Moda({
@@ -18,19 +19,18 @@ const body = Work_Sans({
 });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-const siteDescription =
-  "MyShop — capi e accessori essenziali, pensati per durare. Materiali scelti con cura, forme senza tempo.";
+const siteDescription = `${SITE_NAME} — capi e accessori essenziali, pensati per durare. Materiali scelti con cura, forme senza tempo.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "MyShop",
-    template: "%s — MyShop",
+    default: SITE_NAME,
+    template: `%s — ${SITE_NAME}`,
   },
   description: siteDescription,
   openGraph: {
-    siteName: "MyShop",
-    title: "MyShop",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
     description: siteDescription,
     type: "website",
     locale: "it_IT",

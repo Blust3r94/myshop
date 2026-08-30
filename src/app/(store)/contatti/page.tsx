@@ -1,6 +1,8 @@
+import { SITE_NAME } from "@/lib/site-config";
+
 export const metadata = {
-  title: "Contatti — MyShop",
-  description: "Come contattare l'assistenza MyShop.",
+  title: "Contatti",
+  description: `Come contattare l'assistenza ${SITE_NAME}.`,
 };
 
 export default function ContattiPage() {

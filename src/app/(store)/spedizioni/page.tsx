@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { SITE_NAME } from "@/lib/site-config";
 
 export const metadata = {
-  title: "Spedizioni — MyShop",
-  description: "Tempi e condizioni di spedizione degli ordini MyShop.",
+  title: "Spedizioni",
+  description: `Tempi e condizioni di spedizione degli ordini ${SITE_NAME}.`,
 };
 
 export default function SpedizioniPage() {

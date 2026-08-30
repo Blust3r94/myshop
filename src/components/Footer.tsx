@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SITE_NAME } from "@/lib/site-config";
 
 const CATEGORIES = ["Abbigliamento", "Scarpe", "Accessori"];
 
@@ -10,7 +11,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-6 pb-28 pt-16 md:px-10 md:pb-16">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
-            <div className="font-serif text-xl italic">MyShop</div>
+            <div className="font-serif text-xl italic">{SITE_NAME}</div>
             <p className="max-w-[26ch] text-sm leading-relaxed text-paper/60">
               Capi e accessori essenziali, pensati per durare.
             </p>
@@ -60,7 +61,7 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col gap-2 border-t border-paper/10 pt-6 text-[13px] text-paper/40 md:flex-row md:items-center md:justify-between">
-          <div>&copy; {new Date().getFullYear()} MyShop</div>
+          <div>&copy; {new Date().getFullYear()} {SITE_NAME}</div>
           <div>Pagamenti sicuri con Stripe</div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { DEMO_PRODUCTS } from "@/lib/demo-catalog";
 import { ProductCard } from "@/components/ProductCard";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { SITE_NAME } from "@/lib/site-config";
 
 // Dati sempre freschi (stock/disponibilità cambiano di continuo): niente prerender statico.
 export const dynamic = "force-dynamic";
@@ -18,8 +19,8 @@ export async function generateMetadata(
   return {
     title: categoria ?? "Catalogo",
     description: categoria
-      ? `Scopri i prodotti della categoria ${categoria} su MyShop.`
-      : "Scopri tutta la collezione MyShop: capi e accessori essenziali, pensati per durare.",
+      ? `Scopri i prodotti della categoria ${categoria} su ${SITE_NAME}.`
+      : `Scopri tutta la collezione ${SITE_NAME}: capi e accessori essenziali, pensati per durare.`,
   };
 }
 
