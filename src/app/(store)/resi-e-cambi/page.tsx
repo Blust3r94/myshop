@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME } from "@/lib/site-config";
+import { SITE_NAME, RETURN_WINDOW_DAYS } from "@/lib/site-config";
 
 export const metadata = {
   title: "Resi e cambi",
@@ -14,7 +14,7 @@ export default function ResiECambiPage() {
 
       <div className="mt-8 space-y-6 text-sm leading-relaxed text-ink-muted">
         <p>
-          Hai <strong className="text-ink">30 giorni</strong> di tempo dalla consegna per restituire un
+          Hai <strong className="text-ink">{RETURN_WINDOW_DAYS} giorni</strong> di tempo dalla consegna per restituire un
           articolo che non ti convince: il reso è gratuito su tutti gli ordini.
         </p>
         <p>

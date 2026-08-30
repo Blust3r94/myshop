@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { SITE_NAME } from "@/lib/site-config";
+import { SITE_NAME, SHIPPING_TIME_SHORT, RETURN_WINDOW_DAYS } from "@/lib/site-config";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -106,7 +106,7 @@ export function Hero() {
       <div className="relative border-t border-paper/10">
         <div className="mx-auto max-w-6xl px-6 py-4 md:px-10 lg:px-16">
           <p className="text-center text-[11px] uppercase tracking-[0.2em] text-paper/50 md:text-left">
-            Spedizione in 48h — Resi gratuiti entro 30 giorni
+            Spedizione in {SHIPPING_TIME_SHORT} — Resi gratuiti entro {RETURN_WINDOW_DAYS} giorni
           </p>
         </div>
       </div>

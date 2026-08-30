@@ -7,6 +7,7 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { ProductVariantSelector } from "@/components/ProductVariantSelector";
 import { ProductCard } from "@/components/ProductCard";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { SHIPPING_TIME_SHORT, RETURN_WINDOW_DAYS } from "@/lib/site-config";
 
 // Dati sempre freschi (stock/disponibilità cambiano di continuo): niente prerender statico.
 export const dynamic = "force-dynamic";
@@ -99,7 +100,7 @@ export default async function ProductPage(props: { params: Promise<{ slug: strin
                   <circle cx="17.5" cy="19" r="1.5" />
                 </svg>
                 <div>
-                  <p className="text-[13px] text-ink">Spedizione in 48h</p>
+                  <p className="text-[13px] text-ink">Spedizione in {SHIPPING_TIME_SHORT}</p>
                   <p className="text-[12px] text-ink-muted">Su tutti gli ordini in Italia</p>
                 </div>
               </div>
@@ -110,7 +111,7 @@ export default async function ProductPage(props: { params: Promise<{ slug: strin
                 </svg>
                 <div>
                   <p className="text-[13px] text-ink">Resi gratuiti</p>
-                  <p className="text-[12px] text-ink-muted">Entro 30 giorni dall&apos;acquisto</p>
+                  <p className="text-[12px] text-ink-muted">Entro {RETURN_WINDOW_DAYS} giorni dall&apos;acquisto</p>
                 </div>
               </div>
             </div>

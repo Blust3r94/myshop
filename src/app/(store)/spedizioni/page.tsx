@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME } from "@/lib/site-config";
+import { SITE_NAME, SHIPPING_TIME_LABEL } from "@/lib/site-config";
 
 export const metadata = {
   title: "Spedizioni",
@@ -14,7 +14,7 @@ export default function SpedizioniPage() {
 
       <div className="mt-8 space-y-6 text-sm leading-relaxed text-ink-muted">
         <p>
-          Tutti gli ordini vengono spediti in <strong className="text-ink">48 ore lavorative</strong>{" "}
+          Tutti gli ordini vengono spediti in <strong className="text-ink">{SHIPPING_TIME_LABEL}</strong>{" "}
           dalla conferma del pagamento, su tutto il territorio italiano.
         </p>
         <p>

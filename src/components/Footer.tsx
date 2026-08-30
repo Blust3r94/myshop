@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME } from "@/lib/site-config";
+import { SITE_NAME, PAYMENT_PROVIDER_LABEL } from "@/lib/site-config";
 
 const CATEGORIES = ["Abbigliamento", "Scarpe", "Accessori"];
 
@@ -60,9 +60,20 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t border-paper/10 pt-6 text-[13px] text-paper/40 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-3 border-t border-paper/10 pt-6 text-[13px] text-paper/40 md:flex-row md:items-center md:justify-between">
           <div>&copy; {new Date().getFullYear()} {SITE_NAME}</div>
-          <div>Pagamenti sicuri con Stripe</div>
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <Link href="/privacy" className="transition hover:text-paper/70">
+              Privacy
+            </Link>
+            <Link href="/termini-e-condizioni" className="transition hover:text-paper/70">
+              Termini e condizioni
+            </Link>
+            <Link href="/cookie-policy" className="transition hover:text-paper/70">
+              Cookie Policy
+            </Link>
+          </div>
+          <div>Pagamenti sicuri con {PAYMENT_PROVIDER_LABEL}</div>
         </div>
       </div>
     </footer>
